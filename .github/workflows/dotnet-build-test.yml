@@ -20,18 +20,17 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    - name: Install tool
-      run: dotnet tool install DotnetCtrfJsonReporter --local
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --logger "trx;logfilename=testResults.trx" --no-build --verbosity normal
-    - name: Convert Tests
-      run: dotnet tool run DotnetCtrfJsonReporter -t "TestResults/testResults.trx"
-    - name: Publish Test Report
-      uses: ctrf-io/github-test-reporter@v1
-      with:
-        report-path: './ctrf/*.json'
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
+      with:
+        files: |
+          test-results/**/*.xml
+          test-results/**/*.trx
+          test-results/**/*.json
