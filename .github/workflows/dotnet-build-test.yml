@@ -29,7 +29,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --logger "trx;logfilename=testResults.trx" --no-build --verbosity normal
+      run: dotnet test --logger "trx;logfilename=../../test-results/testResults.trx" --no-build --verbosity normal
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
